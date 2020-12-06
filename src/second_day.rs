@@ -13,53 +13,45 @@ fn create_policies(list: Vec<String>) -> Vec<Policy> {
     list.into_iter()
         .map(|s| {
             let parts: Vec<&str> = r.split(s.as_ref()).collect();
-            let dl = *parts.get(0).unwrap();
-            let ul = *parts.get(1).unwrap();
-            let ch = *parts.get(2).unwrap();
-            let password = *parts.get(3).unwrap();
             Policy {
-                first_number: dl.parse().unwrap(),
-                second_number: ul.parse().unwrap(),
-                character: ch.chars().next().unwrap(),
-                password: password.to_string(),
+                first_number: parts.get(0).map(|s| s.parse::<usize>().unwrap()).unwrap(),
+                second_number: parts.get(1).map(|s| s.parse::<usize>().unwrap()).unwrap(),
+                character: parts.get(2).map(|s| s.chars().next().unwrap()).unwrap(),
+                password: parts.get(3).map(|s| s.to_string()).unwrap(),
             }
         })
         .collect()
 }
 
 pub fn incorrect_passwords(list: Vec<String>) -> u32 {
-    create_policies(list)
-        .into_iter()
-        .fold(0, |mut acc, policy| {
-            let times = policy.password.matches(policy.character).count();
-            if times >= policy.first_number && times <= policy.second_number {
-                acc += 1;
-            }
-            acc
-        })
+    create_policies(list).into_iter().fold(0, |acc, policy| {
+        let times = policy.password.matches(policy.character).count();
+        if times >= policy.first_number && times <= policy.second_number {
+            return acc + 1;
+        }
+        acc
+    })
 }
 
 pub fn correct_passwords(list: Vec<String>) -> u32 {
-    create_policies(list)
-        .into_iter()
-        .fold(0, |mut acc, policy| {
-            let first_ch = policy
-                .password
-                .chars()
-                .nth(policy.first_number - 1)
-                .map(|c| c == policy.character)
-                .unwrap_or(false);
-            let second_ch = policy
-                .password
-                .chars()
-                .nth(policy.second_number - 1)
-                .map(|c| c == policy.character)
-                .unwrap_or(false);
-            if first_ch ^ second_ch {
-                acc += 1;
-            }
-            acc
-        })
+    create_policies(list).into_iter().fold(0, |acc, policy| {
+        let first_ch = policy
+            .password
+            .chars()
+            .nth(policy.first_number - 1)
+            .map(|c| c == policy.character)
+            .unwrap_or(false);
+        let second_ch = policy
+            .password
+            .chars()
+            .nth(policy.second_number - 1)
+            .map(|c| c == policy.character)
+            .unwrap_or(false);
+        if first_ch ^ second_ch {
+            return acc + 1;
+        }
+        acc
+    })
 }
 
 #[test]

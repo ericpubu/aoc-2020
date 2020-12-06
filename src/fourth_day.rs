@@ -1,6 +1,13 @@
+use lazy_static::lazy_static;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
 use validator::{Validate, ValidationError};
+
+lazy_static! {
+    static ref VALID_HLC: Regex = Regex::new(r"^#[a-fA-F0-9]+$").expect("invalid regex");
+    static ref VALID_ECL: Regex =
+        Regex::new(r"\b(?:amb|blu|brn|gry|grn|hzl|oth)\b").expect("invalid regex");
+}
 
 #[derive(Debug, Deserialize, Serialize, Validate)]
 struct Passport {
@@ -12,9 +19,9 @@ struct Passport {
     eyr: Option<i32>,
     #[validate(required, custom = "validate_height")]
     hgt: Option<Height>,
-    #[validate(required, custom = "validate_hcl")]
+    #[validate(required, length(equal = 7), regex = "VALID_HLC")]
     hcl: Option<String>,
-    #[validate(required, custom = "validate_ecl")]
+    #[validate(required, length(equal = 3), regex = "VALID_ECL")]
     ecl: Option<String>,
     #[validate(required, length(equal = 9))]
     pid: Option<String>,
@@ -31,25 +38,7 @@ fn validate_height(height: &Height) -> Result<(), ValidationError> {
     Err(ValidationError::new("invalid_height"))
 }
 
-// FIXME: This should be possible with Regex ib lazy static
-fn validate_hcl(hcl: &str) -> Result<(), ValidationError> {
-    let r = Regex::new(r"^#[a-fA-F0-9]+$").expect("invalid regex");
-    if hcl.len() == 7 && r.is_match(hcl) {
-        return Ok(());
-    }
-    Err(ValidationError::new("invalid_hcl"))
-}
-
-// FIXME: This should be possible with Regex
-fn validate_ecl(ecl: &str) -> Result<(), ValidationError> {
-    let valid = &["amb", "blu", "brn", "gry", "grn", "hzl", "oth"];
-    if valid.contains(&ecl) {
-        return Ok(());
-    }
-    Err(ValidationError::new("invalid_ecl"))
-}
-
-#[derive(Debug, Deserialize, Serialize, Validate)]
+#[derive(Debug, Deserialize, Serialize)]
 struct Height {
     unit: String,
     number: i16,
@@ -79,7 +68,7 @@ impl Passport {
             && self.pid.is_some()
     }
 
-    //FIXME: Find a better way to serialize, probably with serde, this is to manual.
+    //FIXME: Find a better way to serialize, probably with serde, this is too manual.
     fn insert_fields(&mut self, fields: Vec<(&str, &str)>) {
         for field in fields {
             if field.0 == "cid" {

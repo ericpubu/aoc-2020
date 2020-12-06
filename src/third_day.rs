@@ -1,30 +1,27 @@
-fn create_map(input: Vec<String>) -> Vec<Vec<char>> {
-    input
+pub fn tree_map(input: Vec<String>, line_step: usize, position_step: usize) -> usize {
+    let map: Vec<Vec<char>> = input
         .into_iter()
         .map(|s| s.chars().collect::<Vec<char>>())
-        .collect()
-}
-
-pub fn tree_map(input: Vec<String>, line_step: usize, position_step: usize) -> usize {
-    let map = create_map(input);
-    let mut counter = 0;
+        .collect();
     let mut index = 0;
-    let line_size = map.get(0).unwrap().len(); //Jump first
+    let line_size = map.get(0).unwrap().len();
 
-    for index_line in (line_step..map.len()).step_by(line_step) {
-        index += position_step;
-        if index > line_size - 1 {
-            index -= line_size;
-        }
-        if let Some(line) = map.get(index_line) {
-            if let Some(position) = line.get(index) {
-                if *position == '#' {
-                    counter += 1;
+    (line_step..map.len())
+        .step_by(line_step)
+        .fold(0, |acc, il| {
+            index += position_step;
+            if index > line_size - 1 {
+                index -= line_size;
+            }
+            if let Some(line) = map.get(il) {
+                if let Some(position) = line.get(index) {
+                    if *position == '#' {
+                        return acc + 1;
+                    }
                 }
             }
-        }
-    }
-    counter
+            acc
+        })
 }
 
 pub fn check_slots(input: Vec<String>, attempts: Vec<(usize, usize)>) -> usize {

@@ -56,7 +56,7 @@ fn execute_third_day() {
 fn execute_fourth_day() {
     let input = lines_from_file("inputs/day4.txt").expect("Could not load lines");
     let result = validate_passport(input.clone());
-    print!("Number of \"valid\" passports: {}", result);
+    println!("Number of \"valid\" passports: {}", result);
     let result = validate_passport_content(input);
-    print!("Number of valid passports: {}", result);
+    println!("Number of valid passports: {}", result);
 }
