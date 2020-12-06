@@ -9,56 +9,57 @@ struct Policy {
 }
 
 fn create_policies(list: Vec<String>) -> Vec<Policy> {
-    let mut policies: Vec<Policy> = Vec::with_capacity(list.len());
     let r = Regex::new(r"[\s.?!,-/:]+").unwrap();
-    for l in list {
-        let parts: Vec<&str> = r.split(l.as_ref()).collect();
-        let dl = *parts.get(0).unwrap();
-        let ul = *parts.get(1).unwrap();
-        let ch = *parts.get(2).unwrap();
-        let password = *parts.get(3).unwrap();
-        policies.push(Policy {
-            first_number: dl.parse().unwrap(),
-            second_number: ul.parse().unwrap(),
-            character: ch.chars().next().unwrap(),
-            password: password.to_string(),
+    list.into_iter()
+        .map(|s| {
+            let parts: Vec<&str> = r.split(s.as_ref()).collect();
+            let dl = *parts.get(0).unwrap();
+            let ul = *parts.get(1).unwrap();
+            let ch = *parts.get(2).unwrap();
+            let password = *parts.get(3).unwrap();
+            Policy {
+                first_number: dl.parse().unwrap(),
+                second_number: ul.parse().unwrap(),
+                character: ch.chars().next().unwrap(),
+                password: password.to_string(),
+            }
         })
-    }
-    policies
+        .collect()
 }
 
 pub fn incorrect_passwords(list: Vec<String>) -> u32 {
-    let policies = create_policies(list);
-    let mut counter: u32 = 0;
-    for policy in policies {
-        let times = policy.password.matches(policy.character).count();
-        if times >= policy.first_number && times <= policy.second_number {
-            counter += 1;
-        }
-    }
-    counter
+    create_policies(list)
+        .into_iter()
+        .fold(0, |mut acc, policy| {
+            let times = policy.password.matches(policy.character).count();
+            if times >= policy.first_number && times <= policy.second_number {
+                acc += 1;
+            }
+            acc
+        })
 }
 
 pub fn correct_passwords(list: Vec<String>) -> u32 {
-    let policies = create_policies(list);
-    let mut correct: u32 = 0;
-    for policy in policies {
-        let mut occ: u32 = 0;
-        if let Some(ch) = policy.password.chars().nth(policy.first_number - 1) {
-            if ch == policy.character {
-                occ += 1;
+    create_policies(list)
+        .into_iter()
+        .fold(0, |mut acc, policy| {
+            let first_ch = policy
+                .password
+                .chars()
+                .nth(policy.first_number - 1)
+                .map(|c| c == policy.character)
+                .unwrap_or(false);
+            let second_ch = policy
+                .password
+                .chars()
+                .nth(policy.second_number - 1)
+                .map(|c| c == policy.character)
+                .unwrap_or(false);
+            if first_ch ^ second_ch {
+                acc += 1;
             }
-        }
-        if let Some(ch) = policy.password.chars().nth(policy.second_number - 1) {
-            if ch == policy.character {
-                occ += 1;
-            }
-        }
-        if occ == 1 {
-            correct += 1;
-        }
-    }
-    correct
+            acc
+        })
 }
 
 #[test]

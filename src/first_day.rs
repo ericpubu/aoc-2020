@@ -1,15 +1,9 @@
 use std::collections::HashSet;
+use std::iter::FromIterator;
 
-fn create_set(input: &[i32]) -> HashSet<i32> {
-    let mut set = HashSet::with_capacity(input.len());
-    for value in input {
-        set.insert(*value);
-    }
-    set
-}
 pub fn expenses(input: Vec<i32>) -> i32 {
     let objective = 2020;
-    let set = create_set(&input);
+    let set: HashSet<i32> = HashSet::from_iter(input.iter().cloned());
     for value in input {
         let key = objective - value;
         if let Some(result) = set.get(&key) {
@@ -21,7 +15,7 @@ pub fn expenses(input: Vec<i32>) -> i32 {
 
 pub fn expenses2(input: Vec<i32>) -> i32 {
     let objective = 2020;
-    let set = create_set(&input);
+    let set: HashSet<i32> = HashSet::from_iter(input.iter().cloned());
     for value in &input {
         let new_objective: i32 = objective - value;
         for v in &input {

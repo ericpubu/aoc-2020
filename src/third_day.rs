@@ -5,17 +5,6 @@ fn create_map(input: Vec<String>) -> Vec<Vec<char>> {
         .collect()
 }
 
-//for index_line in (1..map.len()) {
-//if let Some(line) = map.get(index_line) {
-//if let Some(position) = line.get(index) {
-//if *position == '#' {
-//counter += 1;
-//}
-//}
-//index += 3;
-//}
-//}
-
 pub fn tree_map(input: Vec<String>, line_step: usize, position_step: usize) -> usize {
     let map = create_map(input);
     let mut counter = 0;
