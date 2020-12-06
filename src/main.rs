@@ -1,8 +1,10 @@
+mod fifth_day;
 mod first_day;
 mod fourth_day;
 mod second_day;
 mod third_day;
 
+use fifth_day::*;
 use first_day::*;
 use fourth_day::*;
 use second_day::*;
@@ -19,6 +21,7 @@ fn main() {
     execute_second_day();
     execute_third_day();
     execute_fourth_day();
+    execute_fifth_day();
 }
 
 fn lines_from_file(filename: impl AsRef<Path>) -> io::Result<Vec<String>> {
@@ -59,4 +62,12 @@ fn execute_fourth_day() {
     println!("Number of \"valid\" passports: {}", result);
     let result = validate_passport_content(input);
     println!("Number of valid passports: {}", result);
+}
+
+fn execute_fifth_day() {
+    let input = lines_from_file("inputs/day5.txt").expect("Could not load lines");
+    let result = highest_seat_id(input.clone());
+    println!("Highest seat id: {}", result);
+    let result = user_seat_id(input);
+    println!("User seat id: {}", result);
 }
