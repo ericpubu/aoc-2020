@@ -1,8 +1,10 @@
 mod first_day;
 mod second_day;
+mod third_day;
 
 use first_day::*;
 use second_day::*;
+use third_day::*;
 
 use std::{
     fs::File,
@@ -13,6 +15,7 @@ use std::{
 fn main() {
     execute_first_day();
     execute_second_day();
+    execute_third_day();
 }
 
 fn lines_from_file(filename: impl AsRef<Path>) -> io::Result<Vec<String>> {
@@ -36,4 +39,13 @@ fn execute_second_day() {
     println!("Incorrect passwords: {}", result);
     let result = correct_passwords(list);
     println!("Correct passwords: {}", result);
+}
+
+fn execute_third_day() {
+    let input = lines_from_file("inputs/day3.txt").expect("Could not load lines");
+    let result = tree_map(input.clone(), 1, 3);
+    println!("Number of trees: {}", result);
+    let attempts: Vec<(usize, usize)> = vec![(1, 1), (1, 3), (1, 5), (1, 7), (2, 1)];
+    let result = check_slots(input, attempts);
+    println!("Number of tree posibilities: {}", result);
 }

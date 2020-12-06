@@ -1,6 +1,6 @@
 use std::collections::HashSet;
 
-fn create_set(input: &Vec<i32>) -> HashSet<i32> {
+fn create_set(input: &[i32]) -> HashSet<i32> {
     let mut set = HashSet::with_capacity(input.len());
     for value in input {
         set.insert(*value);
