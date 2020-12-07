@@ -2,12 +2,14 @@ mod fifth_day;
 mod first_day;
 mod fourth_day;
 mod second_day;
+mod sixth_day;
 mod third_day;
 
 use fifth_day::*;
 use first_day::*;
 use fourth_day::*;
 use second_day::*;
+use sixth_day::*;
 use third_day::*;
 
 use std::{
@@ -22,6 +24,7 @@ fn main() {
     execute_third_day();
     execute_fourth_day();
     execute_fifth_day();
+    execute_sixth_day()
 }
 
 fn lines_from_file(filename: impl AsRef<Path>) -> io::Result<Vec<String>> {
@@ -70,4 +73,12 @@ fn execute_fifth_day() {
     println!("Highest seat id: {}", result);
     let result = user_seat_id(input);
     println!("User seat id: {}", result);
+}
+
+fn execute_sixth_day() {
+    let input = lines_from_file("inputs/day6.txt").expect("Could not load lines");
+    let result = sum_answers(input.clone(), false);
+    println!("The answers sum is: {}", result);
+    let result = sum_answers(input, true);
+    println!("The correct answers sum is: {}", result);
 }
