@@ -42,7 +42,7 @@ fn collect_correct_answers(input: Vec<String>) -> Vec<HashSet<char>> {
     groups
 }
 
-pub fn sum_answers(input: Vec<String>, correct: bool) -> usize {
+pub(super) fn sum_answers(input: Vec<String>, correct: bool) -> usize {
     if correct {
         collect_correct_answers(input)
             .into_iter()

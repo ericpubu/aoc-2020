@@ -2,6 +2,7 @@ mod fifth_day;
 mod first_day;
 mod fourth_day;
 mod second_day;
+mod seventh_day;
 mod sixth_day;
 mod third_day;
 
@@ -9,6 +10,7 @@ use fifth_day::*;
 use first_day::*;
 use fourth_day::*;
 use second_day::*;
+use seventh_day::*;
 use sixth_day::*;
 use third_day::*;
 
@@ -20,7 +22,8 @@ pub fn run_first_week() {
     run_third_day();
     run_fourth_day();
     run_fifth_day();
-    run_sixth_day()
+    run_sixth_day();
+    run_seventh_day();
 }
 
 fn run_first_day() {
@@ -74,4 +77,15 @@ fn run_sixth_day() {
     println!("The answers sum is: {}", result);
     let result = sum_answers(input, true);
     println!("The correct answers sum is: {}", result);
+}
+
+fn run_seventh_day() {
+    let input = lines_from_file("inputs/first_week/day7.txt").expect("Could not load lines");
+    let result = contained_bags_colors(input.clone(), "shiny gold");
+    println!("The number of bags that can carry shiny gold is {}", result);
+    let result = contained_bags(input, "shiny gold");
+    println!(
+        "The number of bags that has to carry shiny gold is {}",
+        result
+    );
 }

@@ -34,11 +34,11 @@ fn find_seat_ids(input: Vec<String>) -> Vec<usize> {
         .collect()
 }
 
-pub fn highest_seat_id(input: Vec<String>) -> usize {
+pub(super) fn highest_seat_id(input: Vec<String>) -> usize {
     find_seat_ids(input).into_iter().max().unwrap_or(0)
 }
 
-pub fn user_seat_id(input: Vec<String>) -> usize {
+pub(super) fn user_seat_id(input: Vec<String>) -> usize {
     let mut ids = find_seat_ids(input);
     ids.sort_unstable();
     let first = ids[0];

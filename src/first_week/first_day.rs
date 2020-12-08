@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 use std::iter::FromIterator;
 
-pub fn expenses(input: Vec<i32>) -> i32 {
+pub(super) fn expenses(input: Vec<i32>) -> i32 {
     let objective = 2020;
     let set: HashSet<i32> = HashSet::from_iter(input.iter().cloned());
     for value in input {
@@ -13,7 +13,7 @@ pub fn expenses(input: Vec<i32>) -> i32 {
     0
 }
 
-pub fn expenses2(input: Vec<i32>) -> i32 {
+pub(super) fn expenses2(input: Vec<i32>) -> i32 {
     let objective = 2020;
     let set: HashSet<i32> = HashSet::from_iter(input.iter().cloned());
     for value in &input {

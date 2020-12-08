@@ -23,7 +23,7 @@ fn create_policies(list: Vec<String>) -> Vec<Policy> {
         .collect()
 }
 
-pub fn incorrect_passwords(list: Vec<String>) -> u32 {
+pub(super) fn incorrect_passwords(list: Vec<String>) -> u32 {
     create_policies(list).into_iter().fold(0, |acc, policy| {
         let times = policy.password.matches(policy.character).count();
         if times >= policy.first_number && times <= policy.second_number {
@@ -33,7 +33,7 @@ pub fn incorrect_passwords(list: Vec<String>) -> u32 {
     })
 }
 
-pub fn correct_passwords(list: Vec<String>) -> u32 {
+pub(super) fn correct_passwords(list: Vec<String>) -> u32 {
     create_policies(list).into_iter().fold(0, |acc, policy| {
         let first_ch = policy
             .password

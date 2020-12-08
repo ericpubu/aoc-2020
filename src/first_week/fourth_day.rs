@@ -137,7 +137,7 @@ fn create_passports(input: Vec<String>) -> Vec<Passport> {
     passports
 }
 
-pub fn validate_passport(input: Vec<String>) -> u32 {
+pub(super) fn validate_passport(input: Vec<String>) -> u32 {
     create_passports(input).into_iter().fold(
         0,
         |acc, passport| {
@@ -150,7 +150,7 @@ pub fn validate_passport(input: Vec<String>) -> u32 {
     )
 }
 
-pub fn validate_passport_content(input: Vec<String>) -> u32 {
+pub(super) fn validate_passport_content(input: Vec<String>) -> u32 {
     create_passports(input)
         .into_iter()
         .fold(0, |acc, passport| {
@@ -161,6 +161,7 @@ pub fn validate_passport_content(input: Vec<String>) -> u32 {
             }
         })
 }
+
 #[test]
 fn test_create_passports() {
     let input = vec![

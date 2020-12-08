@@ -1,4 +1,4 @@
-pub fn tree_map(input: Vec<String>, line_step: usize, position_step: usize) -> usize {
+pub(super) fn tree_map(input: Vec<String>, line_step: usize, position_step: usize) -> usize {
     let map: Vec<Vec<char>> = input
         .into_iter()
         .map(|s| s.chars().collect::<Vec<char>>())
@@ -24,7 +24,7 @@ pub fn tree_map(input: Vec<String>, line_step: usize, position_step: usize) -> u
         })
 }
 
-pub fn check_slots(input: Vec<String>, attempts: Vec<(usize, usize)>) -> usize {
+pub(super) fn check_slots(input: Vec<String>, attempts: Vec<(usize, usize)>) -> usize {
     attempts
         .into_iter()
         .fold(1, |acc, pair| acc * tree_map(input.clone(), pair.0, pair.1))
