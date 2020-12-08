@@ -37,7 +37,7 @@ fn create_bag(color: String, content: Vec<String>) -> Bag {
     let bags = content
         .into_iter()
         .map(|c| {
-            let mut bs = c.split(' ');
+            let mut bs = c.split_whitespace();
             let num: usize = bs.next().map(|s| s.parse().unwrap_or(0)).unwrap();
             let contained_bag = bs.collect::<Vec<&str>>().join(" ");
             (num, contained_bag)

@@ -125,7 +125,7 @@ fn create_passports(input: Vec<String>) -> Vec<Passport> {
             continue;
         }
         let fields: Vec<(&str, &str)> = inp
-            .split(' ')
+            .split_whitespace()
             .map(|s| {
                 let mut field = s.split(':');
                 (field.next().unwrap(), field.next().unwrap())
@@ -208,7 +208,6 @@ fn test_validate_passports() {
         "hcl:#cfa07d eyr:2025 pid:166559648".to_string(),
         "iyr:2011 ecl:brn hgt:59in".to_string(),
     ];
-
     assert_eq!(2, validate_passport(input))
 }
 
@@ -242,6 +241,5 @@ fn test_validate_passports_content() {
         "".to_string(),
         "iyr:2010 hgt:158cm hcl:#b6652a ecl:blu byr:1944 eyr:2021 pid:093154719".to_string(),
     ];
-
     assert_eq!(4, validate_passport_content(input))
 }
