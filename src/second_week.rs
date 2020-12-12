@@ -1,14 +1,17 @@
 mod first_day;
 mod second_day;
+mod third_day;
 
 use first_day::*;
 use second_day::*;
+use third_day::*;
 
 use super::lines_from_file;
 
 pub fn run_second_week() {
     run_first_day();
     run_second_day();
+    run_third_day()
 }
 
 fn run_first_day() {
@@ -31,4 +34,11 @@ fn run_second_day() {
     } else {
         println!("Not found");
     }
+}
+fn run_third_day() {
+    let input = lines_from_file("inputs/second_week/day3.txt").expect("Could not load lines");
+    let result = mult_differece(input.clone());
+    println!("The mult of differences is {}", result);
+    let result = find_possibilities(input);
+    println!("The possibilities are {}", result);
 }
